@@ -7,8 +7,8 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/register");
+    router.push("/register"); // redirect ke daftar
   }, [router]);
 
-  return <p className="text-center mt-20">Redirecting...</p>;
+  return <p className="text-center mt-20">Redirecting to Register...</p>;
 }

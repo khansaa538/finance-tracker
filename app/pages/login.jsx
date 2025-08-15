@@ -25,13 +25,13 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-500 via-green-400 to-blue-400">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
         <h1 className="text-3xl font-bold text-center text-teal-600 mb-2">
-         Login Akun Finance Tracker
+          Login Akun Finance Tracker
         </h1>
-        <p className="text-center text-gray-500 mb-6">Kelola keuangan Anda dengan mudah</p>
+        <p className="text-center text-gray-500 mb-6">
+          Kelola keuangan Anda dengan mudah
+        </p>
 
-        {errorMsg && (
-          <p className="text-red-500 text-center mb-4">{errorMsg}</p>
-        )}
+        {errorMsg && <p className="text-red-500 text-center mb-4">{errorMsg}</p>}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
