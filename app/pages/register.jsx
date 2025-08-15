@@ -37,10 +37,10 @@ export default function RegisterPage() {
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="block mb-1 font-medium text-gray">Email</label>
+            <label className="block mb-1 font-medium text-gray-700">Email</label>
             <input
               type="email"
-              className="w-full border border-black-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-black"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-black placeholder-gray-400"
               placeholder="Masukkan email Anda"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -49,10 +49,10 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium text-gray">Password</label>
+            <label className="block mb-1 font-medium text-gray-700">Password</label>
             <input
               type="password"
-              className="w-full border border-black-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-black"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-black placeholder-gray-400"
               placeholder="Masukkan password Anda"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

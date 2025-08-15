@@ -38,7 +38,7 @@ export default function LoginPage() {
             <label className="block mb-1 font-medium text-gray-700">Email</label>
             <input
               type="email"
-              className="w-full border border-black-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-black placeholder-gray-400"
               placeholder="Masukkan email Anda"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -50,7 +50,7 @@ export default function LoginPage() {
             <label className="block mb-1 font-medium text-gray-700">Password</label>
             <input
               type="password"
-              className="w-full border border-black-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-black placeholder-gray-400"
               placeholder="Masukkan password Anda"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -67,7 +67,13 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center text-gray-500 mt-6 text-sm">
-          Belum punya akun? <span className="text-teal-600 font-medium cursor-pointer hover:underline">Daftar</span>
+          Belum punya akun?{" "}
+          <span
+            onClick={() => router.push("/register")}
+            className="text-teal-600 font-medium cursor-pointer hover:underline"
+          >
+            Daftar
+          </span>
         </p>
       </div>
     </div>
