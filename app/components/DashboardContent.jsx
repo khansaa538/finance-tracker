@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase/config";
-import Navbar from "../../components/Navbar";
-import TransactionForm from "../../components/TransactionForm";
-import TransactionList from "../../components/TransactionList";
-import TransactionChart from "../../components/TransactionChart";
-import FinanceCard from "../../components/FinanceCard";
+import { auth } from "../firebase/config";
+import Navbar from "./Navbar";
+import TransactionForm from "./TransactionForm";
+import TransactionList from "./TransactionList";
+import TransactionChart from "./TransactionChart";
+import FinanceCard from "./FinanceCard";
 
-export default function DashboardPage() {
+export default function DashboardContent() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -68,4 +68,4 @@ export default function DashboardPage() {
       </main>
     </div>
   );
-}
+} 
