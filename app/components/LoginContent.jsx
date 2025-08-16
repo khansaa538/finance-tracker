@@ -14,10 +14,38 @@ export default function LoginContent() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Mencoba login dengan email:", email);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login berhasil:", userCredential.user);
       router.push("/dashboard");
     } catch (error) {
-      setErrorMsg("Email atau password salah");
+      console.error("Error login:", error);
+      console.error("Error code:", error.code);
+      console.error("Error message:", error.message);
+      
+      // Pesan error yang lebih spesifik
+      switch (error.code) {
+        case 'auth/user-not-found':
+          setErrorMsg("Email tidak terdaftar. Silakan daftar terlebih dahulu.");
+          break;
+        case 'auth/wrong-password':
+          setErrorMsg("Password salah. Periksa kembali password Anda.");
+          break;
+        case 'auth/invalid-email':
+          setErrorMsg("Format email tidak valid.");
+          break;
+        case 'auth/too-many-requests':
+          setErrorMsg("Terlalu banyak percobaan login. Coba lagi nanti.");
+          break;
+        case 'auth/network-request-failed':
+          setErrorMsg("Koneksi internet bermasalah. Coba lagi.");
+          break;
+        case 'auth/invalid-api-key':
+          setErrorMsg("Konfigurasi Firebase bermasalah. Hubungi admin.");
+          break;
+        default:
+          setErrorMsg(`Login gagal: ${error.message}`);
+      }
     }
   };
 
@@ -31,7 +59,11 @@ export default function LoginContent() {
           Kelola keuangan Anda dengan mudah
         </p>
 
-        {errorMsg && <p className="text-red-500 text-center mb-4">{errorMsg}</p>}
+        {errorMsg && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+            <p className="text-red-600 text-center text-sm">{errorMsg}</p>
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>

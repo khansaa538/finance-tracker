@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
@@ -11,13 +11,57 @@ export default function RegisterContent() {
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
+  // Debug Firebase config
+  useEffect(() => {
+    console.log("=== DEBUG FIREBASE CONFIG ===");
+    console.log("API Key exists:", !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+    console.log("Auth Domain exists:", !!process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN);
+    console.log("Project ID exists:", !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
+    console.log("Storage Bucket exists:", !!process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET);
+    console.log("Messaging Sender ID exists:", !!process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID);
+    console.log("App ID exists:", !!process.env.NEXT_PUBLIC_FIREBASE_APP_ID);
+    console.log("Measurement ID exists:", !!process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID);
+    console.log("Auth object:", auth);
+    console.log("===============================");
+  }, []);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Mencoba mendaftar dengan email:", email);
+      console.log("Password length:", password.length);
+      
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Pendaftaran berhasil:", userCredential.user);
       router.push("/dashboard");
     } catch (error) {
-      setErrorMsg("Pendaftaran gagal. Periksa kembali data Anda.");
+      console.error("Error pendaftaran:", error);
+      console.error("Error code:", error.code);
+      console.error("Error message:", error.message);
+      
+      // Pesan error yang lebih spesifik
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          setErrorMsg("Email sudah terdaftar. Silakan login atau gunakan email lain.");
+          break;
+        case 'auth/invalid-email':
+          setErrorMsg("Format email tidak valid.");
+          break;
+        case 'auth/weak-password':
+          setErrorMsg("Password terlalu lemah. Minimal 6 karakter.");
+          break;
+        case 'auth/network-request-failed':
+          setErrorMsg("Koneksi internet bermasalah. Coba lagi.");
+          break;
+        case 'auth/invalid-api-key':
+          setErrorMsg("Konfigurasi Firebase bermasalah. Hubungi admin.");
+          break;
+        case 'auth/operation-not-allowed':
+          setErrorMsg("Pendaftaran dengan email/password tidak diaktifkan di Firebase.");
+          break;
+        default:
+          setErrorMsg(`Pendaftaran gagal: ${error.message}`);
+      }
     }
   };
 
@@ -31,7 +75,11 @@ export default function RegisterContent() {
           Buat akun baru untuk mengelola keuangan Anda
         </p>
 
-        {errorMsg && <p className="text-red-500 text-center mb-4">{errorMsg}</p>}
+        {errorMsg && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+            <p className="text-red-600 text-center text-sm">{errorMsg}</p>
+          </div>
+        )}
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
@@ -51,10 +99,11 @@ export default function RegisterContent() {
             <input
               type="password"
               className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-black placeholder-gray-400"
-              placeholder="Masukkan password Anda"
+              placeholder="Minimal 6 karakter"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
             />
           </div>
 
